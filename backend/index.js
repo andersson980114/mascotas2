@@ -3,6 +3,8 @@ import "./DataBase/conectDb.js"
 import express from 'express'
 import cors from 'cors'
 import petRouter from './Routes/petRoute.js'
+import raceRouter from './Routes/raceRoute.js'
+
 const app = express();
 
 
@@ -21,6 +23,7 @@ const app = express();
 app.use(express.json())
 
 app.use('/api/v1/pet', petRouter)
+app.use('/api/v1/race', raceRouter)
 
  
 

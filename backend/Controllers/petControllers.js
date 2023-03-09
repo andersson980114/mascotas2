@@ -40,7 +40,7 @@ export const findAllPet =   async (req, res) => {
         const pets = await Pet.find() 
         //no hay mascotas
         if(!pets)
-            return res.status(400).json({error: "No hay mascotas registradas"})
+            return res.status(400).json({error: "No pets registered"})
         
         //mascotas obtenidas
         return res.json({pets})
@@ -83,7 +83,7 @@ export const upadtePet=   async (req, res) => {
         const pet = await Pet.findById(_id)  
         //mascota no encontrada
         if(!pet) 
-            return res.status(400).json({error: "Pet "+_id+"  not found, could not be deleted "}) 
+            return res.status(400).json({error: "Pet with ID "+_id+"  not found, could not be deleted "}) 
         
         //tarea eliminada
         await Pet.findByIdAndRemove(_id)    
