@@ -40,13 +40,13 @@ const petsSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        // validate: {
-        //   validator: function(value) {
-        //     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-        //     return urlRegex.test(value);
-        //   },
-        //   message: props => `${props.value} is not a valid URL`
-        // }
+        validate: {
+          validator: function(value) {
+            const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+            return urlRegex.test(value);
+          },
+          message: props => `${props.value} is not a valid URL`
+        }
     },
     age:{
         type:Number,
