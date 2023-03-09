@@ -63,7 +63,7 @@ export const updateUser = async (req, res) => {
       ? res.status(400).json({ message: `No user found with id: ${id},  could not to be updated` })
       : await Users.findByIdAndUpdate(_id, { name, email, tel });
 
-    user.save();
+    await user.save();
     return res.status(200).json({ ok: "User Updated" });
   } catch (err) {
     console.log(err);
