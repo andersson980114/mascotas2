@@ -5,7 +5,7 @@ const petsSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        index: {unique:true}    
+        index: {unique:true},
     },
     description:{
         type: String,
@@ -20,8 +20,7 @@ const petsSchema = new mongoose.Schema({
     species:{
         type:String,
         required:true,
-        trim:true,
-        enum: ["cat", "dog"],
+        trim:true, 
         lowercase: true,
     },
     color:{
@@ -31,22 +30,14 @@ const petsSchema = new mongoose.Schema({
     },
     gender:{
         type:String,
-        required:true,
-        enum: ["male", "female"],
+        required:true, 
         lowercase: true,
         trim:true
     },
     image:{
         type: String,
         required: true,
-        trim: true,
-        validate: {
-          validator: function(value) {
-            const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
-            return urlRegex.test(value);
-          },
-          message: props => `${props.value} is not a valid URL`
-        }
+        trim: true, 
     },
     age:{
         type:Number,

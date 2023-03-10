@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-5 h-100 "  style="background-color: #f8f9fa">
+  <div class="container mx-auto h-100 "  style="background-color: #f8f9fa">
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>| 

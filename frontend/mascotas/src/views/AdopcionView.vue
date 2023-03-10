@@ -24,7 +24,7 @@
                     <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex"> 
                                 <label class="form-control-label px-3">Cargar Foto: </label> 
-                                <button v-if="!foto" class="btn-block btn-primary" @click="openModal()">
+                                <button v-if="foto==undefined" class="btn-block btn-primary" @click="openModal()">
                                     cargar
                                 </button> 
                                 <button  v-else class="btn-block btn-info" @click="openModal()">
@@ -85,7 +85,11 @@
     import Swal from 'sweetalert2'
     import ModalFotos from '@/components/ModalFotos.vue';
     import {useAppstore} from '@/store/index.js'
+    import {usePetApistore} from '@/store/petsApi.js'
     import { storeToRefs } from 'pinia';
+
+    const usePetApi = usePetApistore()
+    let {addPet}= usePetApi
 
     const useApp = useAppstore()
     let {showModal, getDogs, getCats} = useApp
@@ -102,7 +106,9 @@
     let edad= undefined
     let genero= undefined
     let descripcion= undefined 
-
+    
+    
+    
     const openModal = () =>{ 
         let timerInterval 
         if(especie != null){
@@ -147,6 +153,7 @@
     }
 
     const savePet = () =>{
+        
         if(nombre === undefined   ||  descripcion === undefined || genero === undefined || edad === undefined || especie === undefined || color === undefined ){
             Swal.fire(
             'Campos incompletos',
@@ -167,6 +174,9 @@
                 if (result.isConfirmed) {
                     //
                     //
+                    console.log(foto.value)
+                    //console.log("vue: ",nombre,descripcion,raza,especie,color,genero,foto,edad, false)
+                    addPet(nombre,descripcion,raza,especie,color,genero,foto.value,edad)
                     clear()
                     Swal.fire(
                     'Almacenado',
@@ -181,13 +191,14 @@
     }
 
     const clear = () =>{
-        nombre = undefined
-        raza = undefined
-        color = undefined
-        especie = undefined
-        edad = undefined,
-        genero = undefined
-        descripcion = undefined
+        console.log("clear")
+        nombre = ""
+        raza = ""
+        color = ""
+        especie = ""
+        edad = "",
+        genero = ""
+        descripcion = ""
         foto = undefined
     }
        
