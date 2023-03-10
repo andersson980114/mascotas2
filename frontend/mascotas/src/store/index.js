@@ -7,16 +7,16 @@ export  const useAppstore = defineStore('app', ()=>{
         //variables
         let  modal = ref(false)
         let fotos = ref([])
-        let foto = ref("")
+        let foto = ref(undefined)
         
         //funciones
         const showModal = () =>{   
-                modal.value= !modal.value 
-            return modal
+            modal.value= !modal.value  
         }
 
         const getDogs = () => { 
              
+            fotos.value = []
             for(var i=0; i<6; i++){
                 let cont=i
                 axios.get('https://dog.ceo/api/breeds/image/random')
@@ -33,11 +33,11 @@ export  const useAppstore = defineStore('app', ()=>{
                     )
 
             }
- 
-            return fotos
+  
         }
 
         const getCats = () =>{   
+            fotos.value = []
             axios.get('https://api.thecatapi.com/v1/images/search?limit=5')
             .then(res => {
                     var data = res.data  
@@ -53,8 +53,7 @@ export  const useAppstore = defineStore('app', ()=>{
                 .catch( e => {
                         console.log(e)
                     }
-                ) 
-            return fotos
+                )  
       
         }
 

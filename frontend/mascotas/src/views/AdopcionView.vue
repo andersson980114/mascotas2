@@ -75,130 +75,122 @@
                 </div>
             </div>
         </div>
-        <div v-if="showModal">
+        <div v-if="modal">
             <ModalFotos tipo="asd" :fotos="fotos"/>
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
     import Swal from 'sweetalert2'
     import ModalFotos from '@/components/ModalFotos.vue';
     import {useAppstore} from '@/store/index.js'
-import { storeToRefs } from 'pinia';
+    import { storeToRefs } from 'pinia';
 
-    let {showModal, getDogs, getCats} = useAppstore()
-    let {modal, foto} = storeToRefs(useAppstore)
+    const useApp = useAppstore()
+    let {showModal, getDogs, getCats} = useApp
+    let {modal, foto, fotos} = storeToRefs(useApp)
 
-    export default {
-        name: 'AdopcionView',
-        components:{
-            ModalFotos,
-        },
-        data(){
-            return{
-                mensaje:"mensaje error",
-                error: false,
-                //datos de la mascota 
-                nombre: undefined,
-                raza: undefined,
-                color: undefined,
-                especie: undefined,
-                edad: undefined,
-                genero: undefined,
-                descripcion: undefined, 
-                ///modal
-                showModal:modal,
-                //fotos
-                foto:foto,
-                fotos:[],
-            }
-        },
-        methods:{
-            openModal(){ 
-                let timerInterval
-                this.fotos=[]
-                if(this.especie != null){
-                    Swal.fire({
-                        title: 'Accediendo a las fotos',
-                        html: 'Cargando <b></b> fotos',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            this.fotos = [] 
-                            if(this.especie === 'perro'){ 
-                                this.error = false 
-                                this.fotos = getDogs()  
-                            }else if(this.especie === 'gato'){ 
-                                this.error = false  
-                                this.fotos = getCats()
-                            }
-                            timerInterval = setInterval(() => {
-                                
-                            },  2000 )
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                        }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            this.showModal = showModal()
-                        }
-                    })
+    
+    let mensaje="mensaje error"
+    let error= false
+    //datos de la mascota 
+    let nombre= undefined
+    let raza= undefined
+    let color= undefined
+    let especie= undefined
+    let edad= undefined
+    let genero= undefined
+    let descripcion= undefined 
 
-                } else{
-                    this.error = true
-                    this.mensaje = 'Por favor elegir la especie'
+    const openModal = () =>{ 
+        let timerInterval 
+        if(especie != null){
+            Swal.fire({
+                title: 'Accediendo a las fotos',
+                html: 'Cargando <b></b> fotos',
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    if(especie === 'perro'){ 
+                        error = false 
+                        getDogs()  
+                    }else if(especie === 'gato'){ 
+                        error = false  
+                        getCats()
+                    }
+                    timerInterval = setInterval(() => {
+                        
+                    },  2000 )
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
                 }
-            }, 
-            savePet(){
-                if(this.nombre === undefined     ||  this.descripcion === undefined || this.genero === undefined || this.edad === undefined || this.especie === undefined || this.color === undefined ){
-                    this.error=true
-                    this.mensaje = "Por Favor llenar todos los campos"
-                }else{
-                    //
-                    Swal.fire({
-                        title: '¿Está seguro?',
-                        text: "Revisa y confirma que los campos estén cons los datos correctos",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Si, estoy seguro'
-                        }).then((result) => {
-                        if (result.isConfirmed) {
-                            //
-                            //
-                            this.clear()
-                            Swal.fire(
-                            'Almacenado',
-                            'registro almacenado exitosamente',
-                            'success'
-                            )
-                        }
-                        })
-
-                    //
+                }).then((result) => {
+                    
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    showModal()
                 }
-            },
+            })
 
-            clear(){
-                this.nombre = undefined
-                this.raza = undefined
-                this.color = undefined
-                this.especie = undefined
-                this.edad = undefined,
-                this.genero = undefined
-                this.descripcion = undefined
-                this.foto = undefined
-            }
-        },
-        
-
+        } else{
+            Swal.fire(
+            'Especie no elegida',
+            'Por favor elegir la especie',
+            'warning'
+            )
+            //error = true
+            //mensaje = 'Por favor elegir la especie'
+        }
     }
+
+    const savePet = () =>{
+        if(nombre === undefined   ||  descripcion === undefined || genero === undefined || edad === undefined || especie === undefined || color === undefined ){
+            Swal.fire(
+            'Campos incompletos',
+            'Debes llenar todos los campos ',
+            'warning'
+            )
+        }else{
+            //
+            Swal.fire({
+                title: '¿Está seguro?',
+                text: "Revisa y confirma que los campos estén cons los datos correctos",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, estoy seguro'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    //
+                    //
+                    clear()
+                    Swal.fire(
+                    'Almacenado',
+                    'registro almacenado exitosamente',
+                    'success'
+                    )
+                }
+                })
+
+            //
+        }
+    }
+
+    const clear = () =>{
+        nombre = undefined
+        raza = undefined
+        color = undefined
+        especie = undefined
+        edad = undefined,
+        genero = undefined
+        descripcion = undefined
+        foto = undefined
+    }
+       
 </script>
 
 <style scoped>
