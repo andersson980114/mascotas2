@@ -6,6 +6,7 @@
   <Carousel/>
     <Login/>
   <PetTable/>
+  <UserForm/>
 </template>
 
 <script>
@@ -14,6 +15,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '@/components/Login.vue';
 import Carousel from '@/components/Carousel.vue';
 import PetTable from '@/components/PetTable.vue';
+import UserForm from '@/components/UserForm.vue';
 
 export default {
   name: 'HomeView',
@@ -22,6 +24,7 @@ export default {
     Login,
     Carousel,
     PetTable,
+    UserForm,
   }
 }
 </script>
