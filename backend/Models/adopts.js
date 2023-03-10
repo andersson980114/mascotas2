@@ -1,24 +1,27 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const adoptsSchema = new mongoose.Schema({
-  id_pet: {
-    type: String,
-    required: true,
-    trim: true,
-    index: { unique: true },
+const adoptsSchema = new Schema(
+  {
+    id_pet: {
+      type: String,
+      required: true,
+      trim: true,
+      index: { unique: true },
+    },
+    id_user: {
+      type: String,
+      required: true,
+      trim: true,
+      index: { unique: true },
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+      required: true,
+      trim: true,
+    },
   },
-  id_user: {
-    type: String,
-    required: true,
-    trim: true,
-    index: { unique: true },
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-    required: true,
-    trim: true,
-  },
-});
+  { versionKey: false }
+);
 
-export const Adopts = mongoose.model("adopts", adoptsSchema);
+export const Adopts = model("adopts", adoptsSchema);

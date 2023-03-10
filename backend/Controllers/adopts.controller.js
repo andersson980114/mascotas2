@@ -27,16 +27,9 @@ export const getAdopt = async (req, res) => {
 export const createAdopt = async (req, res) => {
   try {
     const { id_pet, id_user, date } = req.body;
-
-    const findId = await Adopts.findOne({ id_pet, id_user });
-
-    if (findId) {
-      return res.status(409).json({ message: "Adopt already exists" });
-    } else {
-      let adopt = new Adopts({ id_pet, id_user, date });
-      await adopt.save();
-      return res.status(200).json({ ok: "New Adopt Created" });
-    }
+    const adopt = new Adopts({ id_pet, id_user, date });
+    await adopt.save();
+    return res.status(200).json({ ok: "New Adopt Created" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Server error" });
