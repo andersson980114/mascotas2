@@ -5,6 +5,7 @@
   </div>-->
   <Carousel/>
     <Login/>
+  <PetTable/>
 </template>
 
 <script>
@@ -12,12 +13,15 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import Login from '@/components/Login.vue';
 import Carousel from '@/components/Carousel.vue';
+import PetTable from '@/components/PetTable.vue';
+
 export default {
   name: 'HomeView',
   components: {
     HelloWorld,
     Login,
     Carousel,
+    PetTable,
   }
 }
 </script>
