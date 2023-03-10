@@ -7,18 +7,17 @@ import raceRouter from './Routes/raceRoute.js'
 
 const app = express();
 
+ const whiteList = ['http://localhost:8080', '*']
 
-// const whiteList = ['http://localhost:8080', '*']
-
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if (whiteList.includes(origin)) {
-//           return callback(null, origin)
-//         } else {
-//           return callback("error cors origin: " + origin + " no autorizado")
-//         }
-//       }
-// }))
+app.use(cors({
+     origin: (origin, callback) => {
+         if (whiteList.includes(origin)) {
+          return callback(null, origin)
+        } else {
+          return callback("error cors origin: " + origin + " no autorizado")
+        }
+       }
+}))
 
 app.use(express.json())
 

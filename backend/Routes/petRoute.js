@@ -9,11 +9,11 @@ const router = express.Router()
 router.post('/add', [
         body('name', 'Formato incorrecto')
             .trim()
-            .isLength({min:5}),
+            .isLength({min:2}),
         
         body('description', 'Formato incorrecto')
             .trim()
-            .isLength({min:5}),
+            .isLength({min:2}),
 
     ],
     validationResults,

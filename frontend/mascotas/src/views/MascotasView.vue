@@ -1,26 +1,29 @@
 <template>
-     <div class="row border p-2">
-        <div class="row py-2  ">
-            <Mascota :pet="pet"/> 
+     <div class="row border  px-0 mx-auto">
+        <div class="row py-2 px-0 mx-auto"> 
+            <div class="col-3"  v-for="pet in pets" :key="pet"> 
+                <Mascota  :pet="pet"/>  
+
+            </div>
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
+    import {onMounted} from 'vue'
     import Mascota from "@/components/Mascota.vue";
-    
-    export default {
-        name: 'MascotasView',
-        data(){
-            return{
-                imagen: "",
-                pet: {id:1, foto:"https://images.dog.ceo/breeds/coonhound/n02089078_3532.jpg", nombre:"asd", raza:"assa", edad:"1", genero:"asd"},
-            }
-        },
-        components:{
-            Mascota
-        },
-    }
+    import {usePetApistore} from '@/store/petsApi.js' 
+    import { storeToRefs } from 'pinia';
+
+    const usePetApi = usePetApistore()
+    let {getPets, }= usePetApi 
+    let {pets} = storeToRefs(usePetApi)
+ 
+    onMounted(() =>{
+        getPets()
+        console.log("vue: ",pets)
+    })
+        
 </script>
 
 <style>
