@@ -41,6 +41,7 @@ export  const useAppstore = defineStore('app', ()=>{
             axios.get('https://api.thecatapi.com/v1/images/search?limit=5')
             .then(res => {
                     var data = res.data  
+                    console.log(data)
                     for(var i = 0; i < 6; i++){ 
                         fotos.value.push(
                             {

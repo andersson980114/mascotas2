@@ -3,6 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   
   {
+    path: '/',
+    name: 'home', 
+    component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue')
+  },
+  {
     path: '/mascotas',
     name: 'mascotas', 
     component: () => import(/* webpackChunkName: "mascotas" */ '../views/MascotasView.vue')
@@ -11,6 +16,11 @@ const routes = [
     path: '/adoptar',
     name: 'adoptar', 
     component: () => import(/* webpackChunkName: "adoptar" */ '../views/AdopcionView.vue')
+  },
+  {
+    path: '/user',
+    name: 'user', 
+    component: () => import(/* webpackChunkName: "user" */ '../views/UserFormView.vue')
   }
 ]
 

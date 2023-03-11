@@ -17,9 +17,12 @@
                 <p class="col px-0 mx-0 text-start">{{pet.gender}}</p>
             </div>
             
-            <hr class="my-1"> 
-            <div class="text-center">
-                <button   class="btn btn-primary" @click="adoptar(pet._id)">adoptar</button>
+            <div v-if="!home">
+                <hr class="my-1"> 
+                <div class="text-center">
+                    <button   class="btn btn-primary" @click="adoptar(pet._id)">adoptar</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -30,7 +33,7 @@
 
     export default {
         name: 'Mascota',
-        props:['pet']
+        props:['pet', 'home']
         ,
         data(){
             return{

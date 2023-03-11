@@ -1,14 +1,20 @@
 <template>
   <div class="container mx-auto h-100 "  style="background-color: #f8f9fa">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>| 
-      <router-link to="/mascotas">Mascotas</router-link>| 
-      <router-link to="/adoptar">Adopciones</router-link>
-    </nav>
+    <nav-bar/>
     <router-view/> 
   </div>
 </template>
+
+<script>
+  import NavBar from '@/components/NavBar.vue' 
+  
+  export default {
+    components:{
+      NavBar 
+    }
+  }
+</script>
+
 
 <style>
   #app {

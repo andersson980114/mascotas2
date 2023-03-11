@@ -87,6 +87,7 @@
     import {useAppstore} from '@/store/index.js'
     import {usePetApistore} from '@/store/petsApi.js'
     import { storeToRefs } from 'pinia';
+    import { ref } from "vue";
 
     const usePetApi = usePetApistore()
     let {addPet}= usePetApi
@@ -99,13 +100,13 @@
     let mensaje="mensaje error"
     let error= false
     //datos de la mascota 
-    let nombre= undefined
-    let raza= undefined
-    let color= undefined
-    let especie= undefined
-    let edad= undefined
-    let genero= undefined
-    let descripcion= undefined 
+    let nombre= ref(undefined)
+    let raza= ref(undefined)
+    let color= ref(undefined)
+    let especie= ref(undefined)
+    let edad= ref(undefined)
+    let genero= ref(undefined)
+    let descripcion= ref(undefined) 
     
     
     
@@ -120,11 +121,14 @@
                 didOpen: () => {
                     Swal.showLoading()
                     const b = Swal.getHtmlContainer().querySelector('b')
-                    if(especie === 'perro'){ 
+                    //console.log(especie)
+                    if(especie.value === 'perro'){ 
                         error = false 
+                        console.log("perros")
                         getDogs()  
-                    }else if(especie === 'gato'){ 
+                    }else if(especie.value === 'gato'){ 
                         error = false  
+                        console.log("perros")
                         getCats()
                     }
                     timerInterval = setInterval(() => {
@@ -154,7 +158,7 @@
 
     const savePet = () =>{
         
-        if(nombre === undefined   ||  descripcion === undefined || genero === undefined || edad === undefined || especie === undefined || color === undefined ){
+        if(nombre.value === undefined   ||  descripcion.value === undefined || genero.value === undefined || edad.value === undefined || especie.value === undefined || color.value === undefined ){
             Swal.fire(
             'Campos incompletos',
             'Debes llenar todos los campos ',
@@ -165,7 +169,7 @@
             Swal.fire({
                 title: '¿Está seguro?',
                 text: "Revisa y confirma que los campos estén cons los datos correctos",
-                icon: 'warning',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -174,32 +178,27 @@
                 if (result.isConfirmed) {
                     //
                     //
-                    console.log(foto.value)
+                    console.log("foto: ",foto.value) 
                     //console.log("vue: ",nombre,descripcion,raza,especie,color,genero,foto,edad, false)
-                    addPet(nombre,descripcion,raza,especie,color,genero,foto.value,edad)
+                    addPet(nombre.value,descripcion.value,raza.value,especie.value,color.value, genero.value,foto.value,edad.value) 
                     clear()
-                    Swal.fire(
-                    'Almacenado',
-                    'registro almacenado exitosamente',
-                    'success'
-                    )
+                    
                 }
-                })
+            })
 
             //
         }
     }
 
-    const clear = () =>{
-        console.log("clear")
-        nombre = ""
-        raza = ""
-        color = ""
-        especie = ""
-        edad = "",
-        genero = ""
-        descripcion = ""
-        foto = undefined
+    const clear = () =>{ 
+        nombre.value = undefined
+        raza.value = undefined
+        color.value = undefined
+        especie.value = undefined
+        edad.value = undefined
+        genero.value =undefined
+        descripcion.value = undefined
+        foto.value = undefined
     }
        
 </script>
@@ -247,5 +246,9 @@ input:focus, textarea:focus{
     font-weight: 400
 }
 
-
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+} 
 </style>
