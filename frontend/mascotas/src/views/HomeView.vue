@@ -1,30 +1,40 @@
 <template>
-  <!--<div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>-->
-  <Carousel/>
-    <Login/>
-  <PetTable/>
-  <UserForm/>
+    <div class="contenedor ">
+        <Carousel />   
+        <div class="row border  px-0 mx-auto">
+            <h1 class="card-title text-center pt-5" >Nuevas Mascotas</h1> 
+            <div class="row py-2 px-0 mx-auto"> 
+                <div class="col-3"  v-for="pet in pets" :key="pet"> 
+                    <Mascota v-if="!pet.isAdopted" :pet="pet" :home="true"/>  
+
+                </div>
+            </div>
+        </div>
+    </div>
+  
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import Login from '@/components/Login.vue';
-import Carousel from '@/components/Carousel.vue';
-import PetTable from '@/components/PetTable.vue';
-import UserForm from '@/components/UserForm.vue';
+<script setup>
+    import Carousel from '@/components/Carousel.vue'; 
+    import Mascota from "@/components/Mascota.vue";
+    import {onMounted } from 'vue'
+    import {usePetApistore} from '@/store/petsApi.js' 
+    import { storeToRefs } from 'pinia';
 
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld,
-    Login,
-    Carousel,
-    PetTable,
-    UserForm,
-  }
-}
+    const usePetApi = usePetApistore()
+    let {getPets, }= usePetApi 
+    let {pets} = storeToRefs(usePetApi)
+
+    let newPets = []
+ 
+    onMounted(() =>{
+        getPets() 
+        console.log(pets.value)
+        
+    })
+    
 </script>
+
+<style>
+
+</style>

@@ -20,12 +20,7 @@
                             <label class="form-label ">Teléfono:</label>
                             <input placeholder="Phone" type="text" class="form-control form-control-sm" />
 
-                        </div>
-                        <div class="form-outline mb-4">
-                            <label class="form-label">Contraseña:</label>
-                            <input placeholder="Password" type="password" class="form-control form-control-sm" />
-
-                        </div>
+                        </div> 
                         <button class="btn btn-primary btn-block">Register</button>
                     </div>
                 </div>
@@ -38,4 +33,3 @@ export default {
     name: 'UserForm',
 }
 </script>
-  
