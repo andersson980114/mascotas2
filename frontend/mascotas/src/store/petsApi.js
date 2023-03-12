@@ -8,6 +8,8 @@ export  const usePetApistore = defineStore('petApi', ()=>{
         //variables
         const baseUrl = 'http://localhost:5000/api/v1/pet'
         const pets = ref([])
+        const raceUrl = 'http://localhost:5000/api/v1/race'
+        const races = ref([])
         const pet = ref({})
 
 
@@ -47,17 +49,57 @@ export  const usePetApistore = defineStore('petApi', ()=>{
                 ) 
         }
 
+        const addRace = (race, species) => {
+            const headers = { "Authorization": "Bearer "}; 
+            console.log("api:",race, species)
+            axios.post(raceUrl+'/add', {race, species}, { headers })
+                .then(res => {
+                    Swal.fire(
+                        'Almacenado',
+                        'Raza almacenada exitosamente',
+                        'success'
+                        )
+                        //getRaces()
+                    }
+                    )
+                .catch(e => {
+                    Swal.fire(
+                        'Error de registro',
+                        'Verifica los datos de Raza',
+                        'warning'
+                    )
+                    console.log(e)
+                })
+        }
+
+        const getRaces = () =>{
+            axios.get(raceUrl+'/findallraces')
+                .then(res => {
+                    races.value = res.data.breeds
+                    console.log(races.value  )
+                })
+                .catch( e => {
+                        console.log(e)
+                    }
+                ) 
+        }
+
         const adoptPet = () => {
 
         }
+
+
 
         //returns
         return{
             pets,
             pet,
+            races,
             addPet,
             getPets,
             adoptPet,
+            addRace,
+            getRaces,
         }
     }
 )
