@@ -4,8 +4,8 @@ import { Race } from "../Models/raceModels.js";
 
 export const addRace = async (req, res) => {
     try {
-        const {race} = req.body
-        const breed =  new Race({race})
+        const {race, species} = req.body
+        const breed =  new Race({race, species})
         await breed.save()
         return res.status(200).json({ok: 'New race added'})
         

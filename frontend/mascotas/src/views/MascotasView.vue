@@ -2,7 +2,7 @@
      <div class="row border  px-0 mx-auto">
         <div class="row py-2 px-0 mx-auto"> 
             <div class="col-3"  v-for="pet in pets" :key="pet"> 
-                <Mascota  :pet="pet"/>  
+                <Mascota  :pet="pet" :home="false"/>  
 
             </div>
         </div>

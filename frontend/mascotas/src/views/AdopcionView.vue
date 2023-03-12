@@ -31,10 +31,29 @@
                                     cambiar
                                 </button> 
                             </div>
+                            <!--
+                               component search select 
+                            -->
                             <div class="form-group col-sm-6 flex-column d-flex"> 
-                                <label class="form-control-label px-3">Raza:</label> 
-                                <input type="text" v-model="raza"> 
+                                <label class="form-control-label px-3">Raza:</label>  
+                                <div class="input-group">
+                                    <div id="search-autocomplete" class="form-outline col-9">
+                                        <input type="text" id="search" class="form-control" placeholder="buscar raza" v-model="raza" /> 
+                                    </div>
+                                    <button type="button" class="btn btn-success" @click="saveRace()">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                    <div v-if="buscar.length" class="col-2" style="position: absolute; width: 80%; margin-top: 3rem;">
+                                        <ul class="list-group "> 
+                                            <li  class="list-group-item list-group-item-action" v-for="item in buscar" :key="item"  @click="selectRaza(item.race)">
+                                                {{ item.race }}
+                                            </li>
+                                        </ul>
+    
+                                    </div>
+                                </div>
                             </div>
+                             
                     </div>
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex"> 
@@ -84,12 +103,15 @@
 <script setup>
     import Swal from 'sweetalert2'
     import ModalFotos from '@/components/ModalFotos.vue';
+    import {onMounted} from 'vue'
     import {useAppstore} from '@/store/index.js'
     import {usePetApistore} from '@/store/petsApi.js'
     import { storeToRefs } from 'pinia';
+    import { ref, watch, computed  } from "vue";
 
     const usePetApi = usePetApistore()
-    let {addPet}= usePetApi
+    let {addPet, addRace, getRaces}= usePetApi
+    let {races} = storeToRefs(usePetApi)
 
     const useApp = useAppstore()
     let {showModal, getDogs, getCats} = useApp
@@ -99,16 +121,92 @@
     let mensaje="mensaje error"
     let error= false
     //datos de la mascota 
-    let nombre= undefined
-    let raza= undefined
-    let color= undefined
-    let especie= undefined
-    let edad= undefined
-    let genero= undefined
-    let descripcion= undefined 
+    let nombre= ref(undefined) 
+    let raza= ref(undefined)
+    let color= ref(undefined)
+    let especie= ref(undefined)
+    let edad= ref(undefined)
+    let genero= ref(undefined)
+    let descripcion= ref(undefined) 
+    //component search select  
+    const razas = races.value;
     
-    
-    
+    //component search select  
+    let buscar = computed(() => { 
+           
+            if (raza.value === '' || raza.value === undefined) {
+                return []
+            }
+            let matches = 0
+            if(races.value.length>0){
+                if(especie.value==='' || especie.value === undefined){
+                    Swal.fire(
+                    'No ha escogido la especie ',
+                    'El campo de especie está vacío',
+                    'warning'
+                    )
+                }else{
+                    return races.value.filter(item => { 
+                        if(item.species.toLowerCase().includes(especie.value.toLowerCase())){
+                            if (
+                                item.race.toLowerCase().includes(raza.value.toLowerCase())
+                                && matches < 10
+                            ) { 
+                                matches++ 
+                                return item
+                            }
+                            
+                        }
+                         
+                    })
+                }
+            }else{
+                return []
+            }    
+
+        
+     })
+    //component search select  
+    const selectRaza = (item) => { 
+        raza.value = item 
+        buscar=[]
+    }
+
+    const saveRace = () => {
+       console.log( raza.value)
+        if(raza.value === undefined || raza.value === "" || especie.value === undefined || especie.value === ""){
+            Swal.fire(
+            'Verifique la Raza y Especie ',
+            'El campo de raza o especie está vacío',
+            'warning'
+            )
+        } else{
+            Swal.fire({
+                title: '¿Agregar Raza?',
+                text: "¿Desea registrar esta nueva raza?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, estoy seguro'
+                }).then((result) => {
+                if (result.isConfirmed) {  
+                    addRace(raza.value, especie.value)
+                    Swal.fire(
+                    'Raza agregada',
+                    '',
+                    'success'
+                    )
+                }
+            })
+            
+        }
+    }
+
+    onMounted(() => {
+        getRaces()
+    })
+
     const openModal = () =>{ 
         let timerInterval 
         if(especie != null){
@@ -120,11 +218,14 @@
                 didOpen: () => {
                     Swal.showLoading()
                     const b = Swal.getHtmlContainer().querySelector('b')
-                    if(especie === 'perro'){ 
+                    //console.log(especie)
+                    if(especie.value === 'perro'){ 
                         error = false 
+                        console.log("perros")
                         getDogs()  
-                    }else if(especie === 'gato'){ 
+                    }else if(especie.value === 'gato'){ 
                         error = false  
+                        console.log("perros")
                         getCats()
                     }
                     timerInterval = setInterval(() => {
@@ -154,7 +255,7 @@
 
     const savePet = () =>{
         
-        if(nombre === undefined   ||  descripcion === undefined || genero === undefined || edad === undefined || especie === undefined || color === undefined ){
+        if(nombre.value === undefined   ||  descripcion.value === undefined || genero.value === undefined || edad.value === undefined || especie.value === undefined || color.value === undefined ){
             Swal.fire(
             'Campos incompletos',
             'Debes llenar todos los campos ',
@@ -165,7 +266,7 @@
             Swal.fire({
                 title: '¿Está seguro?',
                 text: "Revisa y confirma que los campos estén cons los datos correctos",
-                icon: 'warning',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -174,32 +275,27 @@
                 if (result.isConfirmed) {
                     //
                     //
-                    console.log(foto.value)
+                    console.log("foto: ",foto.value) 
                     //console.log("vue: ",nombre,descripcion,raza,especie,color,genero,foto,edad, false)
-                    addPet(nombre,descripcion,raza,especie,color,genero,foto.value,edad)
+                    addPet(nombre.value,descripcion.value,raza.value,especie.value,color.value, genero.value,foto.value,edad.value) 
                     clear()
-                    Swal.fire(
-                    'Almacenado',
-                    'registro almacenado exitosamente',
-                    'success'
-                    )
+                    
                 }
-                })
+            })
 
             //
         }
     }
 
-    const clear = () =>{
-        console.log("clear")
-        nombre = ""
-        raza = ""
-        color = ""
-        especie = ""
-        edad = "",
-        genero = ""
-        descripcion = ""
-        foto = undefined
+    const clear = () =>{ 
+        nombre.value = undefined
+        raza.value = undefined
+        color.value = undefined
+        especie.value = undefined
+        edad.value = undefined
+        genero.value =undefined
+        descripcion.value = undefined
+        foto.value = undefined
     }
        
 </script>
@@ -247,5 +343,9 @@ input:focus, textarea:focus{
     font-weight: 400
 }
 
-
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+} 
 </style>

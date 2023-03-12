@@ -8,8 +8,10 @@ const router = express.Router()
 
 router.post('/add', [
         body('race', 'Formato incorrecto')
-            .trim()
-            .isLength({min:5}),
+        .trim()
+        .isLength({min:3}),
+        body('species', 'Formato incorrecto')
+            .trim() 
 
     ],
     validationResults,
