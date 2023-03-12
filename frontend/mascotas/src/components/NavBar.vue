@@ -8,6 +8,7 @@
                 <router-link class="nav-item nav-link "  to="/">Home</router-link>   
                 <router-link class="nav-item nav-link "  to="/mascotas">Mascotas</router-link>   
                 <router-link class="nav-item nav-link " to="/adoptar">Registro Mascotas</router-link>
+                <router-link class="nav-item nav-link " to="/adopciones">Adopciones</router-link>
                 <router-link class="nav-item nav-link" to="/user">Registro Usuarios</router-link>
                 </div>
         </div> 
