@@ -8,11 +8,25 @@ const adoptsSchema = new Schema(
       trim: true,
       index: { unique: true },
     },
+    petName:{
+      type: String,
+      required: true,
+      trim: true, 
+    },
     id_user: {
       type: String,
       required: true,
-      trim: true,
-      index: { unique: true },
+      trim: true, 
+    },
+    userName:{
+      type: String,
+      required: true,
+      trim: true, 
+    },
+    image:{
+        type: String,
+        required: true,
+        trim: true, 
     },
     date: {
       type: Date,

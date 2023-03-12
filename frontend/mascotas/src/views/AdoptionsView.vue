@@ -1,6 +1,5 @@
-<template>
-    opción 1
-    <div class="row d-flex justify-content-center">
+<template> 
+    <div class="row d-flex justify-content-center vh-100">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <table class="table table-sm">
                 <thead class="table-light">
@@ -11,35 +10,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><img src="https://www.eltiempo.com/files/article_vertical_content_new/uploads/2021/12/03/61aa91564695c.jpeg"
+                    <tr v-for="item of adopts" :key="item">
+                        <td><img :src="item.image"
                                 class="imgp"></td>
-                        <td>Mona</td>
-                        <td>Oscar</td>
+                        <td>{{ item.petName }}</td>
+                        <td>{{item.userName}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    opción 2
-    <table class="table table-sm">
-        <thead class="table-light">
-            <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Usuario</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img src="https://www.eltiempo.com/files/article_vertical_content_new/uploads/2021/12/03/61aa91564695c.jpeg"
-                        class="imgp"></td>
-                <td>Mona</td>
-                <td>Oscar</td>
-            </tr>
-        </tbody>
-    </table>
+    
 </template>
+
+<script setup> 
+    import {onMounted} from 'vue' 
+    import {usePetApistore} from '@/store/petsApi.js'  
+    import { storeToRefs } from 'pinia';
+    //
+    const usePetApi = usePetApistore()
+    let {getAdopts }= usePetApi 
+    let {adopts} = storeToRefs(usePetApi)
+
+    //
+    let pets = []
+
+    onMounted(() =>{
+        getAdopts() 
+    })
+</script>
+
+
 <style>
 .imgp {
     width: 70px;

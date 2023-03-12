@@ -7,7 +7,8 @@ export  const useUserStore = defineStore('user', ()=>{
         //variables
         const baseUrl = 'http://localhost:5000/api/users/v1'
         let users = ref([])
-        let user = ref({}) 
+        let user = ref(undefined)
+        let userId = ref(undefined) 
         let error = false
         /**
          /findall
@@ -46,7 +47,7 @@ export  const useUserStore = defineStore('user', ()=>{
                 .then(res => {
                     //console.log(res.data) 
                     users.value = res.data
-                    console.log(users.value)
+                    console.log(res.data)
                     error = false
                 }).catch( e => { 
                     console.log(e)
@@ -57,6 +58,7 @@ export  const useUserStore = defineStore('user', ()=>{
         //returns
         return{
             user,
+            userId,
             users, 
             addUser,
             getUsers

@@ -20,35 +20,28 @@
             <div v-if="!home">
                 <hr class="my-1"> 
                 <div class="text-center">
-                    <button   class="btn btn-primary" @click="adoptar(pet._id)">adoptar</button>
+                    <button   class="btn btn-primary" @click="adoptPet(pet._id, pet.image, pet.name, pet.description, pet.race, pet.species, pet.color, pet.gender, pet.age)">
+                        adoptar</button>
                 </div>
-
+,
             </div>
         </div>
     </div>
 </template>
 
-<script> 
+<script setup>  
+    import {usePetApistore} from '@/store/petsApi.js' 
+    import { storeToRefs } from 'pinia';
 
+    const usePetApi = usePetApistore()
+    let {adoptPet }= usePetApi 
+    let {showForm} = storeToRefs(usePetApi)
 
-    export default {
-        name: 'Mascota',
-        props:['pet', 'home']
-        ,
-        data(){
-            return{
-                imagen: ""
-            }
-        },
-        methods:{
-            getImgUrl(pet) { 
-                return require(pet)
-            },
-            adoptar(id){
-                console.log("adoptado ", id)
-            }
-        }
-    }
+    const name = 'Mascota'
+    const props = defineProps(['pet', 'home'])
+         
+
+         
 </script>
 
 <style>
