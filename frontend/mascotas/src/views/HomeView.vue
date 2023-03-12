@@ -4,8 +4,8 @@
         <div class="row border  px-0 mx-auto">
             <h1 class="card-title text-center pt-5" >Nuevas Mascotas</h1> 
             <div class="row py-2 px-0 mx-auto"> 
-                <div class="col-3"  v-for="pet in pets" :key="pet"> 
-                    <Mascota v-if="!pet.isAdopted" :pet="pet" :home="true"/>  
+                <div class="col-3"  v-for="pet in newPets" :key="pet"> 
+                    <Mascota  :pet="pet" :home="true"/>  
 
                 </div>
             </div>
@@ -23,13 +23,14 @@
 
     const usePetApi = usePetApistore()
     let {getPets, }= usePetApi 
-    let {pets} = storeToRefs(usePetApi)
-
-    let newPets = []
+    let {newPets} = storeToRefs(usePetApi)
+ 
  
     onMounted(() =>{
         getPets() 
-        console.log(pets.value)
+        
+        
+        console.log(newPets)
         
     })
     

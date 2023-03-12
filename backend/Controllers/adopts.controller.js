@@ -26,8 +26,8 @@ export const getAdopt = async (req, res) => {
 // create one adoption
 export const createAdopt = async (req, res) => {
   try {
-    const { id_pet, id_user, date } = req.body;
-    const adopt = new Adopts({ id_pet, id_user, date });
+    const { id_pet, petName, id_user, userName, image, date } = req.body;
+    const adopt = new Adopts({ id_pet, petName, id_user, userName, image, date  });
     await adopt.save();
     return res.status(200).json({ ok: "New Adopt Created" });
   } catch (err) {

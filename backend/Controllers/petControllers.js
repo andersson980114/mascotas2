@@ -19,7 +19,7 @@ export const addPet = async (req, res) => {
 
 
 export const findPet =   async (req, res) => {
-    const {_id} = req.body
+    const _id = req.params.id
     try {
         const pet = await Pet.findById(_id)  
         //mascota no encontrada

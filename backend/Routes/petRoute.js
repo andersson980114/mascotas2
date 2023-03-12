@@ -22,7 +22,7 @@ router.post('/add', [
 
 
 
-router.get('/findpet', findPet)
+router.get('/findpet/:id', findPet)
 
 router.put('/updatepet', upadtePet)
 
